@@ -9,8 +9,12 @@ public interface IService <T extends Person> {
     List<T> getAll();
     T findByCode(int code);
     void remove(T t);
-//    boolean update(T t);
-//    List<T> searchByName(String name);
-//    List<T> searchByCode(int code);
-//    boolean codeExists(int code);
+    boolean isValidPhoneNumber(String phoneNumber);
+    boolean isUniquePhoneNumber(String phoneNumber);
+    boolean isUniqueCode(int code);
+    boolean isValidDate(String name);
+    List<T> searchByName(String name);
+    List<T> searchByCode(int code);
+    boolean codeExists(int code);
+
 }

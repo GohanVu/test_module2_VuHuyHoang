@@ -21,7 +21,7 @@ public class StudentController {
             choice = studentView.view();
             switch (choice) {
                 case 1:
-                    student = studentView.viewAdd();
+                    student = studentView.viewAdd(studentService);
                     result = studentService.add(student);
                     studentView.viewMessage(result);
                     break;
@@ -37,12 +37,38 @@ public class StudentController {
                             studentView.viewMessage(true);
                         }
                     }
+                     break;
                 case 3:
+                    int  searchChoice = studentView.viewSearch();
+                    switch (searchChoice){
+                        case 1:
+                            String name = studentView.inputName();
+                            studentList = studentService.searchByName(name);
+                            if(studentList == null){
+                                System.out.println("Not found your seeach: '" +name+"'");
+                            } else {
+                                System.out.println("Your search: "+name+"'");
+                                studentView.searchResultByName(studentList,name);
+                            }
+                            break;
+                        case 2:
+                            code = studentView.inputCode();
+                            studentList = studentService.searchByCode(code);
+                            if(studentList == null){
+                                System.out.println("Invalid code: '"+code+"'");
+                            } else {
+                                System.out.println("Your search: '"+code+"'");
+                                studentView.searchResultByCode(studentList,code);
+                            }
+                            break;
+                    }
                     break;
                 case 4:
                     studentList = studentService.getAll();
                     studentView.displayStudents(studentList);
                     studentView.viewMessage(true);
+                    break;
+                case 5:
                     break;
                 case 0:
                     return;

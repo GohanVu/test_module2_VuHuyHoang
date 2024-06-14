@@ -3,13 +3,12 @@ package Repositories;
 import Models.Student;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class StudentRepo {
-    private static final String SRC_STUDENT = "D:\\Codegym\\module2\\Module 2\\Exam_VuHuyHoang\\src\\data\\students.csv";
+    private static final String SRC_STUDENT = "D:\\Codegym\\module2\\test_module2_VuHuyHoang\\src\\data\\students.csv";
     private static List<Student> students = new ArrayList<>();
     static {
         File file = new File(SRC_STUDENT);
@@ -29,6 +28,10 @@ public class StudentRepo {
     try{
         fileWriter = new FileWriter(file,append);
         bufferedWriter = new BufferedWriter(fileWriter);
+        if(file.length() == 0){
+            bufferedWriter.write("CODE,NAME,DOB,GENDER,PHONE,CLASSNAME");
+            bufferedWriter.newLine();
+        }
         for (Student student : students){
             bufferedWriter.write(toString(student));
             bufferedWriter.newLine();
@@ -49,8 +52,8 @@ public class StudentRepo {
         return student.getCode()+","+student.getName()+","+student.getDob()+","+student.getGender()+","+student.getPhoneNumber()+","+student.getClassCode();
     }
     public void add (Student student){
-        List<Student> pants1 = getAll();
-        pants1.add(student);
+        List<Student> students1 = getAll();
+        students1.add(student);
         writeFile(Collections.singletonList(student),true);
     }
     public List<Student> getAll() {
@@ -62,9 +65,10 @@ public class StudentRepo {
             fileReader = new FileReader(file);
             bufferedReader = new BufferedReader(fileReader);
             String line;
+            bufferedReader.readLine();
             while ((line = bufferedReader.readLine())!=null){
                 String[] temp = line.split(",");
-                students1.add(new Student(temp[1],temp[2],temp[3],temp[4],temp[5]));
+                students1.add(new Student(Integer.parseInt(temp[0]),temp[1],temp[2],temp[3],temp[4],temp[5]));
             }
         } catch (FileNotFoundException e){
             System.out.println("File not found");
